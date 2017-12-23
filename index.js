@@ -1,13 +1,14 @@
 const express = require('express')
-const lib = require('./lib')
 const {Database, Model} = require('mongorito')
-
-console.log('lib: ', lib)
+const mongojs = require('mongojs')
+const bodyParser = require('body-parser')
 
 const server = (config) => {
+  const db = mongojs(config.db)
+  const lib = require('./lib')(db, config)
   const app = express()
-  const db = new Database(config.db)
 
+  app.use(bodyParser.json())
   app.get('/', lib.get)
   app.get('/:collection', lib.find)
   app.get('/:collection/:id', lib.findById)

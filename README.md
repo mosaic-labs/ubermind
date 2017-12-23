@@ -1,35 +1,35 @@
-# hivemind
+# ubermind
 > an open source firebase clone that mounts to an express endpoint and uses mongoDB as a persistence layer. 
 
 ## getting started 
 
 ### install the package
-`npm install --save hivemind`
+`npm install --save ubermind`
 
 ### mount the middleware to express
 
 ```javascript
 const express = require('express');
-const hivemind = require('hivemind');
+const ubermind = require('hivemind');
 const db = require('./db'); // this needs to be a connection to a MongoDB instance
 const app = express(); 
 
-app.use(hivemind('/hivemind', app, db, options));
+app.use(ubermind('/hivemind', app, db, options));
 
 app.listen(3000, () => {
   console.log(`listening on port 3000`);
 });
 ```
 
-This will expose the hivemind middleware on to `/hivemind` of your server. 
+This will expose the ubermind middleware on to `/hivemind` of your server. 
 
-If you do a `GET` request to the root `/hivemind` URL, you'll see a specification of your hivemind endpoint, version, etc... 
+If you do a `GET` request to the root `/ubermind` URL, you'll see a specification of your hivemind endpoint, version, etc... 
 
 ## Create documents 
 
-To create a document, you can simply send a `POST` request to the `/hivemind` endpoint.
+To create a document, you can simply send a `POST` request to the `/ubermind` endpoint.
 
-`POST` request to `/hivemind` takes a data paylaod of 
+`POST` request to `/ubermind` takes a data paylaod of 
 
 ```
 {
@@ -42,7 +42,7 @@ To create a document, you can simply send a `POST` request to the `/hivemind` en
 
 You can also send the model as a url parameter, like this
 
-`/hivemind/todos`
+`/ubermind/todos`
 
 and then in the body of the request, you'd put the data
 
@@ -58,15 +58,15 @@ You don't need to define the models anywhere. Mongo doesn't enforce schemas, so 
 
 If you want to query collections, you can query them with query params on the model. 
 
-`GET` `/hivemind/todos` will return all the `todos` collection. 
+`GET` `/ubermind/todos` will return all the `todos` collection. 
 
-`GET` `/hivemind?model=todos?limit=50` will return the first 50 documents in the `todos` collection. 
+`GET` `/ubermind?model=todos?limit=50` will return the first 50 documents in the `todos` collection. 
 
 The second method allows you to add query params. 
 
 ## Update documents 
 
-`PUT` `/hivemind` 
+`PUT` `/ubermind` 
 
 ```javascript
 {
@@ -80,7 +80,7 @@ The second method allows you to add query params.
 
 or you can do a similar URL parameter request
 
-`PUT` `/hivemind/todos`
+`PUT` `/ubermind/todos`
 ```javascript
 {
   id: '1234',
@@ -90,7 +90,7 @@ or you can do a similar URL parameter request
 }
 ```
 or
-`PUT` `/hivemind/todos/1234`
+`PUT` `/ubermind/todos/1234`
 and this will accept an updated document 
 ```JSON
 {
@@ -103,7 +103,7 @@ You can also delete documents with a `DELETE` request.
 
 #### Delete single document 
 
-`DELETE` `/hivemind`
+`DELETE` `/ubermind`
 
 ```
 {
@@ -159,7 +159,7 @@ The server sends back a response object for every request that has the following
 ```
 
 ## Authentication 
-You can add any authentication middleware in front of the hivemind middleware to lock down the endpoint. 
+You can add any authentication middleware in front of the ubermind middleware to lock down the endpoint. 
 
 ## Configuration Options 
 
@@ -171,21 +171,21 @@ The middleware takes an optional configuration option
 
 ## Command Line Deployment 
 
-Out of the box, hivemind can start a server from the command line that will listen on port 1337. 
+Out of the box, ubermind can start a server from the command line that will listen on port 1337. 
 
 If you want to start it up by the command line`
 
-`npm install -g hivemind`
+`npm install -g ubermind`
 
 Then you can run 
 
-`hivemind --help` for a print out of all the available commands.
+`ubermind --help` for a print out of all the available commands.
 
 ### Docker Deployment 
 You can also start a docker container that will host the hivmeind server. 
 
 ```
-docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d --name hivemind hivemindapps/hivemind
+docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d --name ubermind hivemindapps/hivemind
 ```
 
 Or there's a docker-compose file that you can curl down and `docker-compose up` 

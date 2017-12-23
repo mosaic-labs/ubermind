@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test",
-    "linter": "standard './lib' 'index.js'"
+    "linter": "standard './lib index.js'"
   },
   "author": "Dylan Lott <lott.dylan@gmail.com>",
   "license": "AGPL-3.0",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "express": "^4.16.2",
+    "mongojs": "^2.4.1",
     "mongorito": "^3.0.4"
   }
 }
