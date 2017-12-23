@@ -1,5 +1,4 @@
 const express = require('express')
-const {Database, Model} = require('mongorito')
 const mongojs = require('mongojs')
 const bodyParser = require('body-parser')
 
@@ -9,6 +8,7 @@ const server = (config) => {
   const app = express()
 
   app.use(bodyParser.json())
+
   app.get('/', lib.get)
   app.get('/:collection', lib.find)
   app.get('/:collection/:id', lib.findById)
