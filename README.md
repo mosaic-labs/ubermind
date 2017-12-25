@@ -1,5 +1,18 @@
 # ubermind
-> an open source firebase clone that mounts to an express endpoint and uses mongoDB as a persistence layer. 
+> free & open source (AGPL-3.0 licensed)
+> webhook and socket events for lifecylce methods 
+> REST API out of the box
+> can be started from the command line 
+> docker container for out of the box deploys 
+> connects to any existing mongo, and can utilize existing data
+> easily extensible / reusable
+
+## why? 
+
+Don't reinvent the wheel. When you need a simple backend persistence layer, you don't need to write an endpoint and controller for everything.
+99% of CRUD tasks can be accomplished with a REST interface. Instead, focus on the other difficult parts of your application. 
+
+Since each method is exposed on the root, you can pick and choose what methods you want to use, or you can just mount everything to a custom endpoint and go from there. 
 
 ## getting started 
 
@@ -57,13 +70,14 @@ You don't need to define the models anywhere. Mongo doesn't enforce schemas, so 
 ## Query Documents 
 
 If you want to query collections, you can query them with query params on the model. 
+This is the endpoin that will be doing most of the heavy lifting for querying.
+You can query by any key on your documents using this endpoint, as well as add pagination with `skip`, `limit`, and `offset` query params.
 
-`GET` `/ubermind/todos` will return all the `todos` collection. 
+`GET` `/ubermind/todos?limit=50?skip=5` will return all the `todos` collection. 
 
 `GET` `/ubermind?model=todos?limit=50` will return the first 50 documents in the `todos` collection. 
 
-The second method allows you to add query params. 
-
+Both endpoints allow you to add query params. 
 ## Update documents 
 
 `PUT` `/ubermind` 
@@ -119,13 +133,14 @@ Since this is a dangerous operation, it requires the `deleteAll` property to be 
 
 You can turn this action off in the configs object (see configs section) 
 
+`DELETE` request
 ```
 {
   model: 'todos',
-  deleteAll: true
 }
 ```
 
+`deleteAll: true` must be set in the `config` 
 #### Delete by query 
 
 You can delete by parameter as well 
@@ -147,11 +162,6 @@ The server sends back a response object for every request that has the following
 {
   status: xxx,
   message: <success or error message>,
-  meta: {
-    skip: xxx,
-    limit: xxx,
-    total: xxx
-  },
   data: {
     // your response data 
   }
@@ -160,6 +170,7 @@ The server sends back a response object for every request that has the following
 
 ## Authentication 
 You can add any authentication middleware in front of the ubermind middleware to lock down the endpoint. 
+
 
 ## Configuration Options 
 
@@ -190,4 +201,39 @@ docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d -
 
 Or there's a docker-compose file that you can curl down and `docker-compose up` 
 
+# Events 
 
+## Database events 
+```db_connected``` - Emitted on database successful connection
+```db_error``` - Emitted on database error
+
+## Collection Events 
+
+These are fired when actions on a collection happen. Events are fired in the EventEmitter (Node lifecycle), to the Webhook URL, and to the Socket.io URL.
+They all have the same naming convention and payloads. 
+ 
+`<collection>:created` - Emitted when a model is created. They payload of this event is the object that was created.
+`<collection>:updated` - Emitted when a model is updated. The payload this event is the `<key>:<value>` pairs that were changed.
+`<collection>:deleted` - Emitted when a model is deleted. The payload of this event is the `id`(s) of the documents that were deleted.
+
+# Roadmap 
+
+2.0 Goals 
+- [ ] Configurable but simple authentication setup
+- [ ] Socket.io introduction (currently only supports webhook) 
+- [ ] Sharding / replication setup
+- [ ] Docker container
+- [ ] Command line startup via `npm start`
+
+# Contributing
+
+## Development 
+I use nodemon to detect changes in local development. 
+You can run `example.js` with this and it loads in the library. 
+
+`nodemon example.js`
+
+Got an improvement? Fixed a bug? Make a PR, I'll check it out. 
+
+# License 
+AGPL-3.0 licensed 
