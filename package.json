@@ -18,7 +18,6 @@
   "dependencies": {
     "axios": "^0.17.1",
     "express": "^4.16.2",
-    "mongojs": "^2.4.1",
-    "mongorito": "^3.0.4"
+    "mongojs": "^2.4.1"
   }
 }

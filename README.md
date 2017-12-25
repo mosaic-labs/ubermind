@@ -22,15 +22,20 @@ Since each method is exposed on the root, you can pick and choose what methods y
 ### mount the middleware to express
 
 ```javascript
-const express = require('express');
-const ubermind = require('ubermind');
-const db = require('./db'); // this needs to be a connection to a MongoDB instance
-const app = express(); 
+const express = require('express')
+const ubermind = require('ubermind')
 
-app.use(ubermind('/ubermind', app, db, options));
+const app = express()
+// mount it to an endpoint
+app.use('/ubermind', ubermind({
+  timestamps: true, // adds timestamps to every object
+  webhook: 'localhost:3000', // where it will psot events to
+  socket: 'localhost:4000', // socket.io url
+  db: 'localhost:27017/ubermind' // specify the database connection string
+}));
 
 app.listen(3000, () => {
-  console.log(`listening on port 3000`);
+  console.log('listening on port 3000')
 });
 ```
 
@@ -176,9 +181,16 @@ You can add any authentication middleware in front of the ubermind middleware to
 
 The middleware takes an optional configuration option 
 
-`deleteAll`
+`deleteAll` // not implemented
 `timestamps`
-`logger`
+`logger` // not implemented
+
+## Databse string
+Must be a valid connection string. Follows mongojs connection string formatting. You can read more about that here. 
+
+## Timestamps 
+If `timestamps` is set to true in the configuration, then each object will be created with a `created_at` key. 
+On update, each object will have a `updated_at` key either added or updated, depending on if the document has been updated before. 
 
 ## Command Line Deployment 
 
