@@ -10,20 +10,20 @@
 
 ```javascript
 const express = require('express');
-const ubermind = require('hivemind');
+const ubermind = require('ubermind');
 const db = require('./db'); // this needs to be a connection to a MongoDB instance
 const app = express(); 
 
-app.use(ubermind('/hivemind', app, db, options));
+app.use(ubermind('/ubermind', app, db, options));
 
 app.listen(3000, () => {
   console.log(`listening on port 3000`);
 });
 ```
 
-This will expose the ubermind middleware on to `/hivemind` of your server. 
+This will expose the ubermind middleware on to `/ubermind` of your server. 
 
-If you do a `GET` request to the root `/ubermind` URL, you'll see a specification of your hivemind endpoint, version, etc... 
+If you do a `GET` request to the root `/ubermind` URL, you'll see a specification of your ubermind endpoint, version, etc... 
 
 ## Create documents 
 
@@ -185,7 +185,7 @@ Then you can run
 You can also start a docker container that will host the hivmeind server. 
 
 ```
-docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d --name ubermind hivemindapps/hivemind
+docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d --name ubermind ubermindapps/ubermind
 ```
 
 Or there's a docker-compose file that you can curl down and `docker-compose up` 
