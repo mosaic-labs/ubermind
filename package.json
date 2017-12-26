@@ -7,6 +7,9 @@
     "test": "./node_modules/mocha/bin/mocha ./test",
     "linter": "standard './lib index.js'"
   },
+  "bin": {
+    "ubermind": "bin/ubermind.js"
+  },
   "author": "Dylan Lott <lott.dylan@gmail.com>",
   "license": "AGPL-3.0",
   "devDependencies": {
@@ -17,6 +20,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "commander": "^2.12.2",
     "express": "^4.16.2",
     "mongojs": "^2.4.1"
   }
