@@ -3,21 +3,21 @@ const mongojs = require('mongojs')
 const bodyParser = require('body-parser')
 
 const server = (config) => {
+  const app = express()
+  const server = require('http').Server(app);
   const Events = require('./lib/events')
   const db = mongojs(config.db)
-  const lib = require('./lib')(db, config, this)
-  const app = express()
-
-  this.utils = require('./lib/utils')
-  this.events = new Events(config)
+  const events = new Events(config, server)
+  const lib = require('./lib')(db, config, events)
+  const utils = require('./lib/utils')
 
   db.on('error', (err) => {
-    this.events.broadcast('db_error', err)
+    events.broadcast('db_error', err)
     console.error('error connecting to database', err)
   })
 
   db.on('connect', () => {
-    this.events.broadcast('db_connected')
+    events.broadcast('db_connected')
     console.log('connected to database')
   })
 
@@ -37,5 +37,8 @@ const server = (config) => {
 
   return app
 }
+
+server.utils = require('./lib/utils')
+server.events = require('./lib/events')
 
 module.exports = server
