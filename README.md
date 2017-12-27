@@ -1,11 +1,14 @@
 # ubermind
-> free & open source (AGPL-3.0 licensed)
-> webhook and socket events for lifecylce methods 
-> REST API out of the box
-> can be started from the command line 
-> docker container for out of the box deploys 
-> connects to any existing mongo, and can utilize existing data
-> easily extensible / reusable
+
+> an out of the box, build-your-own Firebase-like implementation that can be bound to any express server at a customizeable endpoint or booted up on its own with node or docker.
+
+* free & open source (AGPL-3.0 licensed)
+* webhook events for document and collection events
+* REST API out of the box
+* can be started from the command line 
+* docker container for out of the box deploys 
+* connects to any existing mongo, and can utilize existing data
+* easily extensible / reusable
 
 ## why? 
 
@@ -236,6 +239,7 @@ They all have the same naming convention and payloads.
 - [ ] Sharding / replication setup
 - [ ] Docker container
 - [ ] Command line startup via `npm start`
+- [ ] Improved querying capabilities
 
 # Contributing
 
