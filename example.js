@@ -7,8 +7,8 @@ const app = express()
 app.use('/ubermind', ubermind({
   timestamps: true,
   webhook: 'http://localhost:5000/', // where it will post events to
-  socket: 'localhost:4000', // socket.io url
-  db: 'localhost:27017/ubermind' // specify the database connection string
+  socket: 'http://localhost:4000', // socket.io url
+  db: process.env.MONGO_URI || 'localhost:27017/ubermind' // specify the database connection string
 }));
 
 app.listen(3000, () => {

@@ -8,3 +8,19 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    links:
+      - mongo:mongo
+  
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    volumes:
+      - 'mongodb_master_data:/bitnami' # link to volumes
+    env_file: # if you have an env file, if not - remove this 
+      - .env
+    ports:
+      - 27017:27017 # bind to normal mongo ports 
+
+volumes:
+  mongodb_master_data:
+    driver: local
+
