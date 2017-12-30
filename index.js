@@ -18,7 +18,9 @@ const server = (config) => {
 
   db.on('connect', () => {
     events.broadcast('db_connected')
-    console.log('connected to database')
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('connected to database')
+    }
   })
 
   app.use(bodyParser.json())
