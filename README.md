@@ -31,10 +31,9 @@ const ubermind = require('ubermind')
 const app = express()
 // mount it to an endpoint
 app.use('/ubermind', ubermind({
-  timestamps: true, // adds timestamps to every object
-  webhook: 'localhost:3000', // where it will psot events to
-  socket: 'localhost:4000', // socket.io url
-  db: 'localhost:27017/ubermind' // specify the database connection string
+  timestamps: true, // adds timestamps to every object, defaults to true
+  webhook: 'localhost:3000', // where it will post events to, defaults to this
+  db: 'localhost:27017/ubermind' // specify the database connection string, defaults to this
 }));
 
 app.listen(3000, () => {
@@ -239,7 +238,7 @@ They all have the same naming convention and payloads.
 - [ ] Socket.io introduction (currently only supports webhook) 
 - [ ] Sharding / replication setup
 - [X] Docker container
-- [ ] Command line startup via `npm start`
+- [X] Command line startup via `ubermind run`
 - [ ] Improved querying capabilities
 
 # Contributing
