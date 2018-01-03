@@ -11,7 +11,7 @@ const server = (config) => {
   const events = new Events(config, server)
   const lib = require('./lib')(db, config, events)
   const utils = require('./lib/utils')
-  const auth = config.permissions
+  const auth = config.permissions || {}
 
   db.on('error', (err) => {
     events.broadcast('db_error', err)

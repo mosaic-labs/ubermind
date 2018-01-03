@@ -6,7 +6,8 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test",
     "linter": "standard './lib index.js'",
-    "docker": "docker-compose up"
+    "docker": "docker-compose up",
+    "dev": "nodemon ubermind.js"
   },
   "bin": {
     "ubermind": "bin/ubermind.js"
