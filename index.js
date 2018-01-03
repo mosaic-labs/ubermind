@@ -12,6 +12,7 @@ const server = (config) => {
   const lib = require('./lib')(db, config, events)
   const utils = require('./lib/utils')
   const auth = config.permissions || {}
+  const cors = require('./cors')
 
   db.on('error', (err) => {
     events.broadcast('db_error', err)
@@ -25,10 +26,23 @@ const server = (config) => {
     }
   })
 
-  app.use(bodyParser.json())
+  // allow cors to be overridden
+  if (!config.cors) {
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      next();
+    });
+
+
+  }
 
   app.set('db', db)
   app.set('config', config)
+
+  app.use(bodyParser.json())
 
   app.get('/', auth.getRoot || noop, lib.root)
   app.post('/', auth.create || noop, lib.create)
@@ -44,5 +58,6 @@ const server = (config) => {
 
 server.utils = require('./lib/utils')
 server.events = require('./lib/events')
+server.lib = require('./lib')
 
 module.exports = server
