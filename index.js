@@ -4,15 +4,18 @@ const bodyParser = require('body-parser')
 const noop = (req, res, next) => next()
 
 const server = (config) => {
+  const mongo_express = require('mongo-express/lib/middleware')
+  const mongo_express_config = require('./mongo_express_config')
   const app = express()
   const server = require('http').Server(app)
   const Events = require('./lib/events')
   const db = mongojs(config.db)
+  console.log('db is', db)
   const events = new Events(config, server)
   const lib = require('./lib')(db, config, events)
   const utils = require('./lib/utils')
   const auth = config.permissions || {}
-  const cors = require('./cors')
+  //const cors = require('cors')
 
   db.on('error', (err) => {
     events.broadcast('db_error', err)
@@ -35,14 +38,18 @@ const server = (config) => {
       res.header('Access-Control-Allow-Credentials', 'true');
       next();
     });
-
-
   }
 
   app.set('db', db)
   app.set('config', config)
 
   app.use(bodyParser.json())
+
+  // Mongo / Express Dashboard
+  if (config.dashboard !== false) {
+    console.log("serving dashboard at `/dashboard`")
+    app.use('/dashboard', mongo_express(mongo_express_config(config)))
+  }
 
   app.get('/', auth.getRoot || noop, lib.root)
   app.post('/', auth.create || noop, lib.create)
@@ -52,6 +59,7 @@ const server = (config) => {
   app.get('/:model/:id', auth.findOne || noop, lib.findOne) // :id only takes ObjectID's
   app.put('/:model/:id', auth.updateOne || noop, lib.updateOne) // :id only takes ObjectID's
   app.delete('/:model/:id', auth.deleteOne || noop, lib.deleteById) // :id only takes ObjectID's
+
 
   return app
 }
