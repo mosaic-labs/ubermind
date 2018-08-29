@@ -215,6 +215,30 @@ docker run -p 1337:1337 --link mongo:mongo -e MONGO_URI=<your_mongo_db_uri> -d -
 
 Or there's a docker-compose file that you can curl down and `docker-compose up` 
 
+# Admin interface
+
+Ubermind will mount a dashboard to `/dashboard/` from whatever URL you configured as your base. 
+From there, you will be prompted with a username and password box. 
+
+The defaults are 
+
+```
+username: admin 
+password: pass
+```
+
+If you want to change these, add fields to the ubermind config for each of these values. 
+
+i.e. 
+
+```
+ubermind({
+..., // other properties of your config
+username: 'exampleusername', 
+password: 'examplepassword'
+})
+```
+
 # Events 
 
 ## Database events 
@@ -240,6 +264,7 @@ They all have the same naming convention and payloads.
 - [X] Docker container
 - [X] Command line startup via `ubermind run`
 - [ ] Improved querying capabilities
+- [X] Database admin panel
 
 # Contributing
 
