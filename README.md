@@ -17,7 +17,27 @@ Don't reinvent the wheel. When you need a simple backend persistence layer, you 
 
 Since each method is exposed on the root, you can pick and choose what methods you want to use, or you can just mount everything to a custom endpoint and go from there. 
 
-## getting started 
+## use cases 
+
+- Easy analytics capture
+- Quick CRUD backend to use
+- Any project requiring a fairly simple REST API
+
+## getting started with Docker
+
+If you have an existing Mongo that you want to connect to, just run the container
+
+docker run -p 3000:3000 -e MONGO_URI=<your mongo uri with auth here> -d --name ubermind/ubermind
+
+If you don't have an existing Mongo instance, you can spin up a Mongo instance with a connected Ubermind by cloning
+this repo and running 
+
+`docker-compose up` and that will start both and link them. 
+
+## getting started with an existing app 
+
+If you have an existing app and you just want the CRUD functionality from Ubermind, you can install it
+as an Express route handler.
 
 ### install the package
 `npm install --save ubermind`
@@ -85,6 +105,25 @@ You can query by any key on your documents using this endpoint, as well as add p
 `GET` `/ubermind?model=todos?limit=50` will return the first 50 documents in the `todos` collection. 
 
 Both endpoints allow you to add query params. 
+
+## Complex Queries
+
+If you want to use complex queries with Mongoose, e.g. use aggregations, etc... You can use the `/query` endpoint to do just that. 
+
+`POST` `/query` will allow you to send a request body of any object. 
+
+```
+
+{
+  "model": "projects",
+  "query": {
+    // your query goes here 
+  }
+}
+```
+
+This allows you to do anything that you can do with the mongoose `find()` method.
+
 ## Update documents 
 
 `PUT` `/ubermind` 

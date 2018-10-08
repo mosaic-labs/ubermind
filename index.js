@@ -10,7 +10,6 @@ const server = (config) => {
   const server = require('http').Server(app)
   const Events = require('./lib/events')
   const db = mongojs(config.db)
-  console.log('db is', db)
   const events = new Events(config, server)
   const lib = require('./lib')(db, config, events)
   const utils = require('./lib/utils')
@@ -52,14 +51,15 @@ const server = (config) => {
   }
 
   app.get('/', auth.getRoot || noop, lib.root)
+  app.post('/query', auth.query || noop, lib.query)
   app.post('/', auth.create || noop, lib.create)
   app.put('/', auth.update || noop, lib.update)
   app.delete('/', auth.delete || noop, lib.delete)
   app.get('/:model', auth.find || noop, lib.find)
   app.get('/:model/:id', auth.findOne || noop, lib.findOne) // :id only takes ObjectID's
+  app.get('/:model/:field/:id', auth.fineOneBy || noop, lib.findOneBy)
   app.put('/:model/:id', auth.updateOne || noop, lib.updateOne) // :id only takes ObjectID's
   app.delete('/:model/:id', auth.deleteOne || noop, lib.deleteById) // :id only takes ObjectID's
-
 
   return app
 }

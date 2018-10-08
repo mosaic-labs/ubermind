@@ -18,7 +18,7 @@ services:
     env_file: # if you have an env file, if not - remove this 
       - .env
     ports:
-      - 27017:27017 # bind to normal mongo ports 
+      - "27017:27017" # bind to normal mongo ports 
 
 volumes:
   mongodb_master_data:
