@@ -257,13 +257,13 @@ They all have the same naming convention and payloads.
 # Roadmap 
 
 2.0 Goals 
-- [ ] Configurable but simple authentication setup
-  - [ ] Expose each endpoint for different authentication / authorization
+- [X] Configurable but simple authentication setup
+  - [X] Expose each endpoint for different authentication / authorization
 - [ ] Socket.io introduction (currently only supports webhook) 
 - [ ] Sharding / replication setup
 - [X] Docker container
 - [X] Command line startup via `ubermind run`
-- [ ] Improved querying capabilities
+- [X] Improved querying capabilities
 - [X] Database admin panel
 
 # Contributing
