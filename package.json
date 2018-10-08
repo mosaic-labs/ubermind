@@ -1,6 +1,6 @@
 {
   "name": "ubermind",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "an open source firebase clone that mounts to an express endpoint and uses mongoDB as a persistence layer.",
   "main": "index.js",
   "scripts": {
