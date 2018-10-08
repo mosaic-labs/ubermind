@@ -50,6 +50,7 @@ const server = (config) => {
     app.use('/dashboard', mongo_express(mongo_express_config(config)))
   }
 
+  app.all('*', auth.all || noop)
   app.get('/', auth.getRoot || noop, lib.root)
   app.post('/query', auth.query || noop, lib.query)
   app.post('/', auth.create || noop, lib.create)
@@ -57,7 +58,7 @@ const server = (config) => {
   app.delete('/', auth.delete || noop, lib.delete)
   app.get('/:model', auth.find || noop, lib.find)
   app.get('/:model/:id', auth.findOne || noop, lib.findOne) // :id only takes ObjectID's
-  app.get('/:model/:field/:id', auth.fineOneBy || noop, lib.findOneBy)
+  app.get('/:model/:field/:id', auth.findOneBy || noop, lib.findOneBy)
   app.put('/:model/:id', auth.updateOne || noop, lib.updateOne) // :id only takes ObjectID's
   app.delete('/:model/:id', auth.deleteOne || noop, lib.deleteById) // :id only takes ObjectID's
 

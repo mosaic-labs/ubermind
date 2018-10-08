@@ -23,26 +23,27 @@ Since each method is exposed on the root, you can pick and choose what methods y
 - Quick CRUD backend to use
 - Any project requiring a fairly simple REST API
 
-## getting started with Docker
+## getting started with docker 
 
-If you have an existing Mongo that you want to connect to, just run the container
+`npm install -g ubermind`
 
-docker run -p 3000:3000 -e MONGO_URI=<your mongo uri with auth here> -d --name ubermind/ubermind
+If you want to use Docker, the CLI exposes a quick command for you. 
+Then you can run `ubermind docker` and it will boot up a Mongo and Ubermind container for you and link them together. 
 
-If you don't have an existing Mongo instance, you can spin up a Mongo instance with a connected Ubermind by cloning
-this repo and running 
-
-`docker-compose up` and that will start both and link them. 
+If you want to configure the Docker containers more, you can use the `docker-compose.override.yml` to override the docker-compose environment.
 
 ## getting started with an existing app 
 
 If you have an existing app and you just want the CRUD functionality from Ubermind, you can install it
 as an Express route handler.
 
-### install the package
+First, install ubermind and save it 
+
 `npm install --save ubermind`
 
 ### mount the middleware to express
+
+Then mount Ubermind to your `app`
 
 ```javascript
 const express = require('express')
@@ -62,6 +63,7 @@ app.listen(3000, () => {
 ```
 
 This will expose the ubermind middleware on to `/ubermind` of your server. 
+If you want to change that URL, simply adjust what route you mount it to.
 
 If you do a `GET` request to the root `/ubermind` URL, you'll see a specification of your ubermind endpoint, version, etc... 
 
@@ -214,9 +216,49 @@ The server sends back a response object for every request that has the following
 }
 ```
 
-## Authentication 
+## Authentication & Middleware
 You can add any authentication middleware in front of the ubermind middleware to lock down the endpoint. 
 
+To do this, you use the `auth` field on the config object. 
+
+Here's an example that locks down creation but allows public read access. 
+
+```
+{
+  auth: {
+    create: function(req, res, next) {
+      let token
+      if (req.token || req.query.token || req.cookies.token) {
+        const error = validateToken(token)
+        if (error) return res.status(404).send('Not Authorized')
+        return next()
+      }
+    }
+  }
+}
+```
+
+In this example, validateToken would be your own function (This is neither the time nor place to conver 
+an auth tutorial) but you get the general idea. 
+
+The supported config functions that you can specify are 
+
+```
+  getRoot
+  query
+  create
+  update
+  delete
+  find
+  findOne
+  findOneBy
+  updatedOne
+  deleteOne
+  all
+```
+
+If you use `all` that middleware will be applied to every request. This is a good solution if you want
+to lock down your entire service, add authentication, add logging, add rate limiting, etc... 
 
 ## Configuration Options 
 
