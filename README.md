@@ -32,6 +32,19 @@ Then you can run `ubermind docker` and it will boot up a Mongo and Ubermind cont
 
 If you want to configure the Docker containers more, you can use the `docker-compose.override.yml` to override the docker-compose environment.
 
+## using docker with an existing mongo 
+
+`docker run -p 3000:3000 -e UBERMIND_MONGO_URI=<your_mongo_uri> --name ubermind -d hivemindapps/ubermind`
+
+If that Mongo is running inside Docker on a machine, you can link the containers together using the `--link` flag.
+
+`docker run -p 3000:3000 --link <your_mongo_container> -e UBERMIND_MONGO_URI=mongodb://<your_mongo_container>:27017/<your_database_name> --name ubermind -d hivemindapps/ubermind`
+
+Make sure that you update your Mongo URI to account for Docker's name resolution. If your container is named `mongo` the address of it will be at `mongodb://mongo`. 
+
+You can also set the environment variables `UBERMIND_WEBHOOK`, `UBERMIND_SOCKET`, and `UBERMIND_PORT` with the `-e` flag in Docker in case you need
+to change them from their default values.
+
 ## getting started with an existing app 
 
 If you have an existing app and you just want the CRUD functionality from Ubermind, you can install it
