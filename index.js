@@ -10,7 +10,6 @@ const server = (config) => {
   const server = require('http').Server(app)
   const Events = require('./lib/events')
   const db = mongojs(config.db)
-  console.log('db is', db)
   const events = new Events(config, server)
   const lib = require('./lib')(db, config, events)
   const utils = require('./lib/utils')
