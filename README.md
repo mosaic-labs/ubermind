@@ -84,7 +84,15 @@ You can query by any key on your documents using this endpoint, as well as add p
 
 `GET` `/ubermind?model=todos?limit=50` will return the first 50 documents in the `todos` collection. 
 
-`GET` `/ubermind/todos?task=learn ubermind/learn spanish` will return all the documents in the `todos` collection where the task title is either learn uber or learn spanish. 
+`GET` `/ubermind/todos?task=learn ubermind/learn spanish` will return all the documents in the `todos` collection where the task title is either learn ubermind or learn spanish. 
+
+`GET` `/ubermind/todos?task=learn ubermind&time=now` will return all the documents in the `todos` collection where the task title is learn ubermind and the time to complete is now. 
+
+`GET` `/ubermind/todos?task!=learn ubermind/learn spanish` will return all the documents in the `todos` collection where the task title is not learn ubermind neither learn spanish. 
+
+`GET` `/ubermind/todos?task!=learn ubermind` will return all the documents in the `todos` collection where the task title is not learn ubermind.
+
+`GET` `/ubermind/todos?task!=learn ubermind/learn spanish&time=now` will return all the documents in the `todos` collection where the task title is not learn ubermind neither learn spanish, but where the time to complete is now. 
 
 Both endpoints allow you to add query params. 
 ## Update documents 
