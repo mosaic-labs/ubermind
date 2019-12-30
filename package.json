@@ -26,7 +26,7 @@
     "commander": "^2.12.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "mongo-express": "^0.49.0",
+    "mongo-express": "^0.54.0",
     "mongojs": "^2.4.1",
     "shelljs": "^0.7.8",
     "socket.io": "^2.0.4"
