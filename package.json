@@ -21,7 +21,7 @@
     "standard": "^10.0.3"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "commander": "^2.12.2",
     "cors": "^2.8.4",
