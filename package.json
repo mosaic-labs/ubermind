@@ -28,7 +28,7 @@
     "express": "^4.16.2",
     "mongo-express": "^0.49.0",
     "mongojs": "^2.4.1",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.5",
     "socket.io": "^2.0.4"
   }
 }
